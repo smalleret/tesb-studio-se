@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Activation;
 import org.apache.maven.model.ActivationProperty;
 import org.apache.maven.model.Build;
@@ -37,13 +39,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.talend.camel.core.model.camelProperties.RouteletProcessItem;
 import org.talend.camel.designer.ui.editor.RouteProcess;
-import org.talend.commons.CommonsPlugin;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.commons.utils.VersionUtils;
 import org.talend.core.CorePlugin;
@@ -69,7 +67,6 @@ import org.talend.designer.maven.utils.PomUtil;
 import org.talend.designer.runprocess.IProcessor;
 import org.talend.designer.runprocess.IRunProcessService;
 import org.talend.designer.runprocess.ItemCacheManager;
-import org.talend.repository.ProjectManager;
 import org.talend.utils.io.FilesUtils;
 
 /**
@@ -400,7 +397,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
         plugin.setGroupId("org.codehaus.mojo");
         plugin.setArtifactId("build-helper-maven-plugin");
-//        plugin.setVersion("2.2.9");
+        plugin.setVersion("3.0.0");
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
         Xpp3Dom artifacts = new Xpp3Dom("artifacts");
@@ -437,10 +434,12 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         plugin.setArtifactId("featurehelper-maven-plugin");
         String talendVersion = VersionUtils.getTalendVersion();
         String productVersion = VersionUtils.getInternalVersion();
-        if (productVersion.endsWith("-SNAPSHOT") || CommonsPlugin.isJUnitTest() || Platform.inDevelopmentMode()) { //$NON-NLS-1$
-            talendVersion += "-SNAPSHOT"; //$NON-NLS-1$
+        String revision  = StringUtils.substringAfterLast(productVersion, "-");
+        if (revision.equals("SNAPSHOT") || Pattern.matches("M\\d{1}", revision)) { //$NON-NLS-1$
+            talendVersion += "-" + revision; //$NON-NLS-1$
         }
         plugin.setVersion(talendVersion);
+        plugin.setVersion("7.2.1-SNAPSHOT");
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
         Xpp3Dom featuresFile = new Xpp3Dom("featuresFile");
