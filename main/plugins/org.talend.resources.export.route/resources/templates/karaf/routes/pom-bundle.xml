@@ -235,7 +235,7 @@
           </activation>
           <build>
             <plugins>
-                <plugin>
+                <!-- plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>2.7</version>
                     <executions>
@@ -254,6 +254,29 @@
                                 <packaging>xml</packaging>
                                 <repositoryId>${project.distribution-management.repository.id}</repositoryId>
                                 <url>${project.distribution-management.repository.url}</url>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-artifacts-feature</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>attach-artifact</goal>
+                            </goals>
+                            <configuration>
+                                <artifacts>
+                                    <artifact>
+                                        <file>${basedir}/src/main/resources/feature/feature.xml</file>
+                                        <type>xml</type>
+                                        <classifier>feature</classifier>
+                                    </artifact>
+                                </artifacts>
                             </configuration>
                         </execution>
                     </executions>

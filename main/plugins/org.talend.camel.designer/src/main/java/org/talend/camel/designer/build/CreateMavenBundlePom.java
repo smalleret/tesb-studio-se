@@ -74,6 +74,11 @@ import org.talend.utils.io.FilesUtils;
  */
 public class CreateMavenBundlePom extends CreateMavenJobPom {
 
+    /**
+     * 
+     */
+    private static final String PATH_FEATURE = "${basedir}/src/main/bundle-resources/feature.xml";
+
     private static final String PATH_ROUTES = "resources/templates/karaf/routes/";
 
     private Model bundleModel;
@@ -374,7 +379,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         resourcesDir.setValue("${project.build.directory}/bin");
 
         Xpp3Dom featuresFile = new Xpp3Dom("featuresFile");
-        featuresFile.setValue("${basedir}/src/main/bundle-resources/feature.xml");
+        featuresFile.setValue(PATH_FEATURE);
 
         configuration.addChild(finalName);
         configuration.addChild(resourcesDir);
@@ -403,7 +408,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
         Xpp3Dom artifacts = new Xpp3Dom("artifacts");
         Xpp3Dom artifact = new Xpp3Dom("artifact");
         Xpp3Dom file = new Xpp3Dom("file");
-        file.setValue("${resources.path}/feature/feature.xml");
+        file.setValue(PATH_FEATURE);
         Xpp3Dom type = new Xpp3Dom("type");
         type.setValue("xml");
         Xpp3Dom classifier = new Xpp3Dom("classifier");
@@ -443,7 +448,7 @@ public class CreateMavenBundlePom extends CreateMavenJobPom {
 
         Xpp3Dom configuration = new Xpp3Dom("configuration");
         Xpp3Dom featuresFile = new Xpp3Dom("featuresFile");
-        featuresFile.setValue("${basedir}/src/main/bundle-resources/feature.xml");
+        featuresFile.setValue(PATH_FEATURE);
         configuration.addChild(featuresFile);
 
         List<PluginExecution> pluginExecutions = new ArrayList<PluginExecution>();
