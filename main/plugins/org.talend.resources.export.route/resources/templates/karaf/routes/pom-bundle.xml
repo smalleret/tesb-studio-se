@@ -14,7 +14,7 @@
 	<artifactId>@JobArtifactId@</artifactId>
 	<version>@JobVersion@</version>
 	<packaging>bundle</packaging>
-    <name>@ProjectName@ @JobName@-@JobVersion@ (@TalendJobVersion@,@JobType@)</name>
+    <name>@ProjectName@ @JobName@-${project.version} (@TalendJobVersion@,@JobType@)</name>
 
     <properties>
 		<item.name>@ItemName@</item.name>

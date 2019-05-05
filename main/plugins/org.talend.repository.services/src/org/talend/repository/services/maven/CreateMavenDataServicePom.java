@@ -127,7 +127,7 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
         String jobVersion = PomIdsHelper.getJobVersion(getJobProcessor().getProperty());
         String talendJobVersion = getJobProcessor().getProperty().getVersion();
         String JobType = "Services";
-        String displayName = projectName + " " + artifactId + "-" + jobVersion + " (" + talendJobVersion + "," + JobType + ")";
+        String displayName = projectName + " " + artifactId + "-" + "${project.version}" + " (" + talendJobVersion + "," + JobType + ")";
         pomModel.setGroupId(groupId);
         pomModel.setArtifactId(artifactId);
         pomModel.setVersion(jobVersion);
