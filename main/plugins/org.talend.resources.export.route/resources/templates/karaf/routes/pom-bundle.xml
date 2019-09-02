@@ -249,7 +249,7 @@
                             <configuration>
                                 <artifacts>
                                     <artifact>
-                                        <file>${basedir}/src/main/resources/feature/feature.xml</file>
+                                        <file>${basedir}/src/main/bundle-resources/feature/feature.xml</file>
                                         <type>xml</type>
                                         <classifier>feature</classifier>
                                     </artifact>
@@ -257,7 +257,6 @@
                             </configuration>
                         </execution>
                     </executions>
-                </plugin>
                 </plugin>
             </plugins>
           </build>

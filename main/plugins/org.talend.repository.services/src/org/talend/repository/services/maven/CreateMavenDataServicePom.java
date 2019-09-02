@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -208,6 +209,7 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
         // addDeployFeatureMavenPlugin(featureModel.getArtifactId(), featureModel.getVersion(), publishAsSnapshot));
         featureModelBuild.addPlugin(addSkipDeployFeatureMavenPlugin());
         featureModelBuild.addPlugin(addSkipMavenCleanPlugin());
+        featureModelBuild.addPlugin(addFeatureHelperMavenPlugin());
         featureModel.setBuild(featureModelBuild);
         featureModel.setParent(parentPom);
         featureModel.setName(displayName + " Feature");
@@ -383,6 +385,38 @@ public class CreateMavenDataServicePom extends CreateMavenJobPom {
         return plugin;
     }
 
+    private Plugin addFeatureHelperMavenPlugin() {
+        Plugin plugin = new Plugin();
+
+        plugin.setGroupId("org.talend.ci");
+        plugin.setArtifactId("featurehelper-maven-plugin");
+        String talendVersion = VersionUtils.getTalendVersion();
+        String productVersion = VersionUtils.getInternalVersion();
+        String revision  = StringUtils.substringAfterLast(productVersion, "-");
+        if (revision.equals("SNAPSHOT") || Pattern.matches("M\\d{1}", revision)) { 
+            talendVersion += "-" + revision; //$NON-NLS-1$
+        }
+
+        plugin.setVersion(talendVersion);
+        plugin.setVersion("7.2.1-SNAPSHOT");
+
+        Xpp3Dom configuration = new Xpp3Dom("configuration");
+        Xpp3Dom featuresFile = new Xpp3Dom("featuresFile");
+        featuresFile.setValue("${basedir}/src/main/resources/feature/feature.xml");
+        configuration.addChild(featuresFile);
+
+        List<PluginExecution> pluginExecutions = new ArrayList<PluginExecution>();
+        PluginExecution pluginExecution = new PluginExecution();
+        pluginExecution.setId("feature-helper");
+        pluginExecution.setPhase("generate-sources");
+        pluginExecution.addGoal("generate");
+        pluginExecution.setConfiguration(configuration);
+        pluginExecutions.add(pluginExecution);
+        plugin.setExecutions(pluginExecutions);
+
+        return plugin;
+    } 
+    
     /**
      * Avoid clean control-bundle file in target folde, in case of using mvn clean package, TESB-22296
      *
