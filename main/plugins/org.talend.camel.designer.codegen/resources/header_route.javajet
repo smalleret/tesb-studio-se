@@ -2168,6 +2168,7 @@ if (isProvider) {
         String validationEndpoint = org.talend.esb.security.oidc.OidcClientUtils.getValidationEndpoint();
         String clientId = org.talend.esb.security.oidc.OidcClientUtils.getPublicClientID();
         String scope = org.talend.esb.security.oidc.OidcClientUtils.getScope();
+        String clientSecret = org.talend.esb.security.oidc.OidcClientUtils.getClientSecret();
 
         if (tokenEndpoint == null && validationEndpoint == null) {
 
@@ -2207,6 +2208,7 @@ if (isProvider) {
                 validationEndpoint = oidcProperties.getProperty(org.talend.esb.security.oidc.OidcConfiguration.OIDC_VALIDATION_ENDPOINT_LOCATION);
                 clientId = oidcProperties.getProperty(org.talend.esb.security.oidc.OidcConfiguration.OIDC_PUBLIC_CLIENT_ID);
                 scope = oidcProperties.getProperty(org.talend.esb.security.oidc.OidcConfiguration.OIDC_SCOPE);
+                clientSecret = oidcProperties.getProperty(org.talend.esb.security.oidc.OidcConfiguration.OIDC_CLIENT_SECRET);
             }
         }
 
@@ -2214,6 +2216,7 @@ if (isProvider) {
         settings.put(org.talend.esb.security.oidc.OidcConfiguration.OIDC_VALIDATION_ENDPOINT_LOCATION, validationEndpoint);
         settings.put(org.talend.esb.security.oidc.OidcConfiguration.OIDC_PUBLIC_CLIENT_ID, clientId);
         settings.put(org.talend.esb.security.oidc.OidcConfiguration.OIDC_SCOPE, scope);
+        settings.put(org.talend.esb.security.oidc.OidcConfiguration.OIDC_CLIENT_SECRET, clientSecret);
 
         return settings;
     }
